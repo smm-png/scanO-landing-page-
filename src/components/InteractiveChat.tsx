@@ -23,15 +23,23 @@ export default function InteractiveChat() {
   const [activeScanIndex, setActiveScanIndex] = useState<number | null>(null);
   const [scanStatus, setScanStatus] = useState<"idle" | "uploading" | "analyzing" | "completed">("idle");
   const bottomRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const timeoutsRef = useRef<number[]>([]);
+
+  const clearAllMyTimeouts = () => {
+    timeoutsRef.current.forEach(t => window.clearTimeout(t));
+    timeoutsRef.current = [];
+  };
 
   // Hardcoded default conversation replay sequence
   const startDefaultSequence = () => {
+    clearAllMyTimeouts();
     setMessages([]);
     setIsTyping(false);
     setScanStatus("completed");
     
     // Step 1: Initial welcome
-    setTimeout(() => {
+    const t1 = window.setTimeout(() => {
       setMessages([
         {
           id: "1",
@@ -41,85 +49,104 @@ export default function InteractiveChat() {
         }
       ]);
     }, 500);
+    timeoutsRef.current.push(t1);
 
     // Step 2: Show scan finding cards
-    setTimeout(() => {
+    const t2 = window.setTimeout(() => {
       setIsTyping(true);
     }, 1800);
+    timeoutsRef.current.push(t2);
 
-    setTimeout(() => {
+    const t3 = window.setTimeout(() => {
       setIsTyping(false);
-      setMessages(prev => [
-        ...prev,
-        {
-          id: "2",
-          sender: "copilot",
-          text: "I finished running the Deep Vision analysis on your uploaded dental photos. Here are the clinical findings:",
-          time: "1:05 PM",
-          scanResult: {
-            images: [
-              {
-                type: "cavity",
-                score: 94,
-                status: "Cavity Detected",
-                borderColor: "border-red-500",
-                badgeBg: "bg-red-50 text-red-600 border-red-200",
-                label: "94% Cavity"
-              },
-              {
-                type: "calculus",
-                score: 87,
-                status: "Moderate Calculus",
-                borderColor: "border-yellow-500",
-                badgeBg: "bg-yellow-50 text-yellow-600 border-yellow-200",
-                label: "87% Calculus"
-              },
-              {
-                type: "healthy",
-                score: 98,
-                status: "Healthy Molar",
-                borderColor: "border-green-500",
-                badgeBg: "bg-green-50 text-green-600 border-green-200",
-                label: "Healthy"
-              }
-            ]
+      setMessages(prev => {
+        // Prevent duplicate keys
+        if (prev.some(m => m.id === "2")) return prev;
+        return [
+          ...prev,
+          {
+            id: "2",
+            sender: "copilot",
+            text: "I finished running the Deep Vision analysis on your uploaded dental photos. Here are the clinical findings:",
+            time: "1:05 PM",
+            scanResult: {
+              images: [
+                {
+                  type: "cavity",
+                  score: 94,
+                  status: "Cavity Detected",
+                  borderColor: "border-red-500",
+                  badgeBg: "bg-red-50 text-red-600 border-red-200",
+                  label: "94% Cavity"
+                },
+                {
+                  type: "calculus",
+                  score: 87,
+                  status: "Moderate Calculus",
+                  borderColor: "border-yellow-500",
+                  badgeBg: "bg-yellow-50 text-yellow-600 border-yellow-200",
+                  label: "87% Calculus"
+                },
+                {
+                  type: "healthy",
+                  score: 98,
+                  status: "Healthy Molar",
+                  borderColor: "border-green-500",
+                  badgeBg: "bg-green-50 text-green-600 border-green-200",
+                  label: "Healthy"
+                }
+              ]
+            }
           }
-        }
-      ]);
+        ];
+      });
     }, 3200);
+    timeoutsRef.current.push(t3);
 
     // Step 3: Copilot schedules and recommends next action
-    setTimeout(() => {
+    const t4 = window.setTimeout(() => {
       setIsTyping(true);
     }, 4500);
+    timeoutsRef.current.push(t4);
 
-    setTimeout(() => {
+    const t5 = window.setTimeout(() => {
       setIsTyping(false);
-      setMessages(prev => [
-        ...prev,
-        {
-          id: "3",
-          sender: "copilot",
-          text: "Good news — that's early decay, not a fracture. A filling now avoids a crown later. Dr. Mehta has Thursday 3:00 PM open.",
-          time: "1:05 PM",
-          bookingSuggestedSlot: {
-            doctor: "Dr. Mehta",
-            day: "Thursday",
-            timeSlot: "3:00 PM",
-            isBooked: false
+      setMessages(prev => {
+        // Prevent duplicate keys
+        if (prev.some(m => m.id === "3")) return prev;
+        return [
+          ...prev,
+          {
+            id: "3",
+            sender: "copilot",
+            text: "Good news — that's early decay, not a fracture. A filling now avoids a crown later. Dr. Mehta has Thursday 3:00 PM open.",
+            time: "1:05 PM",
+            bookingSuggestedSlot: {
+              doctor: "Dr. Mehta",
+              day: "Thursday",
+              timeSlot: "3:00 PM",
+              isBooked: false
+            }
           }
-        }
-      ]);
+        ];
+      });
     }, 6200);
+    timeoutsRef.current.push(t5);
   };
 
   useEffect(() => {
     startDefaultSequence();
+    return () => clearAllMyTimeouts();
   }, []);
 
-  // Scroll to bottom on updates
+  // Scroll to bottom on updates (strictly within the chat container to prevent auto-scrolling the entire page)
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: "smooth"
+      });
+    }
   }, [messages, isTyping]);
 
   const handleSendMessage = (e?: FormEvent) => {
@@ -355,7 +382,7 @@ export default function InteractiveChat() {
           </div>
 
           {/* Chat Messages Scrolling feed */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#FCFCFD]">
+          <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#FCFCFD]">
             {messages.map((msg) => (
               <div
                 key={msg.id}
