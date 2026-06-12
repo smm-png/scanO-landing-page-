@@ -12,7 +12,7 @@ export default function PricingSection({ onOpenTrialpane }: PricingSectionProps)
       tagline: "Everything a busy practice needs to stop losing website visitors.",
       price: "$199",
       isPopular: false,
-      buttonStyle: "bg-brand-purple hover:bg-brand-hover text-white shadow-[0_4px_16px_rgba(88,50,250,0.25)]",
+      buttonStyle: "bg-brand-purple hover:bg-brand-hover text-white shadow-[0_4px_16px_rgba(132,78,237,0.25)]",
       features: [
         "Unlimited conversations — never capped",
         "Clinical AI chat + voice",
@@ -71,7 +71,7 @@ export default function PricingSection({ onOpenTrialpane }: PricingSectionProps)
             key={plan.id}
             className={`relative rounded-3xl p-8 flex flex-col justify-between text-left transition-all duration-300 transform hover:scale-[1.01] ${
               plan.isPopular
-                ? "bg-slate-900 border border-slate-800 text-white shadow-[0_24px_50px_rgba(88,50,250,0.12)]"
+                ? "bg-slate-900 border border-slate-800 text-white shadow-[0_24px_50px_rgba(132,78,237,0.12)]"
                 : "bg-white border border-gray-100 text-gray-800 shadow-sm"
             }`}
           >

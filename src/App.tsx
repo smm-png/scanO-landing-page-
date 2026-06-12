@@ -130,7 +130,7 @@ export default function App() {
                   href="http://copilot.scanoengage.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-brand-purple hover:bg-brand-hover text-white text-sm sm:text-base font-extrabold px-8 py-4.5 rounded-full shadow-[0_4px_22px_rgba(88,50,250,0.35)] transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer tracking-wider flex items-center justify-center space-x-2 text-center"
+                  className="bg-brand-purple hover:bg-brand-hover text-white text-sm sm:text-base font-extrabold px-8 py-4.5 rounded-full shadow-[0_4px_22px_rgba(132,78,237,0.35)] transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer tracking-wider flex items-center justify-center space-x-2 text-center"
                 >
                   <span>START FREE TRIAL</span>
                   <ChevronRight size={16} />
@@ -140,7 +140,7 @@ export default function App() {
                   href="https://calendly.com/dentaldost-team/scano-copilot-demo"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white hover:bg-gray-50 text-gray-700 hover:text-[#5832FA] border border-gray-200 text-sm sm:text-base font-bold px-8 py-4.5 rounded-full shadow-2xs transition-all hover:scale-[1.01] flex items-center justify-center space-x-2.5 cursor-pointer text-center"
+                  className="bg-white hover:bg-gray-50 text-gray-700 hover:text-[#844EED] border border-gray-200 text-sm sm:text-base font-bold px-8 py-4.5 rounded-full shadow-2xs transition-all hover:scale-[1.01] flex items-center justify-center space-x-2.5 cursor-pointer text-center"
                 >
                   <Phone size={16} className="text-brand-purple/80" />
                   <span>BOOK A DEMO</span>

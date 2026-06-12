@@ -84,7 +84,7 @@ export default function Header({ onOpenDemopane, onOpenTrialpane }: HeaderProps)
               href="http://copilot.scanoengage.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-brand-purple text-white shadow-[0_4px_16px_rgba(88,50,250,0.3)] hover:bg-brand-hover text-sm font-bold px-6 py-3.5 rounded-full transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer tracking-wider block text-center"
+              className="bg-brand-purple text-white shadow-[0_4px_16px_rgba(132, 78, 237, 0.3)] hover:bg-brand-hover text-sm font-bold px-6 py-3.5 rounded-full transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer tracking-wider block text-center"
             >
               START FREE TRIAL
             </a>

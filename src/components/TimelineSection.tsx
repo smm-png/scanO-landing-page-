@@ -95,7 +95,7 @@ export default function TimelineSection() {
             {/* Copy snippet trigger */}
             <button
               onClick={copyToClipboard}
-              className="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-[10px] text-slate-400 font-mono hover:text-[#5832FA] hover:border-[#5832FA]/30 hover:bg-slate-950 flex items-center space-x-1 transition cursor-pointer"
+              className="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-[10px] text-slate-400 font-mono hover:text-[#844EED] hover:border-[#844EED]/30 hover:bg-slate-950 flex items-center space-x-1 transition cursor-pointer"
             >
               {copied ? (
                 <>
@@ -135,7 +135,7 @@ export default function TimelineSection() {
           <div className="border-t border-slate-800 bg-slate-950/70 p-4 flex items-center justify-center">
             <a 
               href="#trial"
-              className="inline-flex items-center space-x-2 text-xs font-semibold text-[#5832FA] hover:text-brand-purple transition"
+              className="inline-flex items-center space-x-2 text-xs font-semibold text-[#844EED] hover:text-brand-purple transition"
             >
               <Link size={12} />
               <span>No website? Every clinic also gets a shareable bot link.</span>

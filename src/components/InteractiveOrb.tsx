@@ -226,7 +226,7 @@ export default function InteractiveOrb() {
         <div className="flex items-center space-x-2">
           {/* Flashing blue indicator */}
           <span className={`w-2.5 h-2.5 rounded-full bg-brand-purple ${isSpeaking ? 'animate-ping' : 'opacity-70'}`}></span>
-          <span className="text-[11px] font-bold font-sans tracking-widest text-[#5832FA]/80 uppercase">
+          <span className="text-[11px] font-bold font-sans tracking-widest text-[#844EED]/80 uppercase">
             {isSpeaking ? "SPEAKING DENTAL ANSWER" : "TAP ORB TO SPEAK"}
           </span>
         </div>

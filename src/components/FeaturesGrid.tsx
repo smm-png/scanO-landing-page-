@@ -86,7 +86,7 @@ export default function FeaturesGrid() {
           {statCards.map((card) => (
             <div 
               key={card.id}
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 hover:border-brand-purple/10 hover:shadow-[0_20px_40px_rgba(88,50,250,0.03)] transition-all duration-300 flex flex-col justify-between text-left group"
+              className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 hover:border-brand-purple/10 hover:shadow-[0_20px_40px_rgba(132,78,237,0.03)] transition-all duration-300 flex flex-col justify-between text-left group"
             >
               <div>
                 <div className="w-12 h-12 rounded-2xl bg-purple-50 flex items-center justify-center mb-6 border border-purple-100/50 group-hover:scale-105 transition-transform duration-200">
@@ -133,7 +133,7 @@ export default function FeaturesGrid() {
           {modularCards.map((card) => (
             <div 
               key={card.id}
-              className="bg-white rounded-2xl p-6 border border-gray-100 hover:border-brand-purple/10 hover:shadow-[0_16px_36px_rgba(88,50,250,0.02)] transition-all flex flex-col justify-between text-left group"
+              className="bg-white rounded-2xl p-6 border border-gray-100 hover:border-brand-purple/10 hover:shadow-[0_16px_36px_rgba(132,78,237,0.02)] transition-all flex flex-col justify-between text-left group"
             >
               <div>
                 <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center mb-5 border border-purple-100/30 group-hover:scale-105 transition-transform">

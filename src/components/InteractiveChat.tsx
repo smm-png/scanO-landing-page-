@@ -407,7 +407,7 @@ export default function InteractiveChat() {
         <div className="pt-2">
           <button
             onClick={startDefaultSequence}
-            className="inline-flex items-center space-x-2 text-xs sm:text-sm font-bold text-[#5832FA] hover:text-brand-purple-dark transition-all duration-200 cursor-pointer border-b-2 border-brand-purple-light hover:border-[#5832FA] pb-1"
+            className="inline-flex items-center space-x-2 text-xs sm:text-sm font-bold text-[#844EED] hover:text-brand-purple-dark transition-all duration-200 cursor-pointer border-b-2 border-brand-purple-light hover:border-[#844EED] pb-1"
           >
             <RotateCcw size={14} className="animate-spin-once" />
             <span className="uppercase tracking-widest font-sans">REPLAY THE CONVERSATION</span>
@@ -417,7 +417,7 @@ export default function InteractiveChat() {
 
       {/* Right side: Interactive Simulated Chat widget */}
       <div className="w-full md:w-1/2 flex justify-center">
-        <div className="relative w-full max-w-[440px] h-[580px] rounded-3xl bg-white border border-gray-100 shadow-[0_20px_50px_rgba(88,50,250,0.06)] flex flex-col overflow-hidden">
+        <div className="relative w-full max-w-[440px] h-[580px] rounded-3xl bg-white border border-gray-100 shadow-[0_20px_50px_rgba(132,78,237,0.06)] flex flex-col overflow-hidden">
           
           {/* Chat Header Widget */}
           <div className="bg-[#FAF9FF] border-b border-gray-100 p-4 shrink-0 flex justify-between items-center">
@@ -776,7 +776,7 @@ export default function InteractiveChat() {
                     ) : (
                       <button
                         onClick={() => executeBookSlot(msg.id)}
-                        className="w-full bg-brand-purple hover:bg-brand-hover text-white flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold shadow-[0_4px_12px_rgba(88,50,250,0.2)] transition-all hover:scale-[1.01] active:opacity-90 cursor-pointer"
+                        className="w-full bg-brand-purple hover:bg-brand-hover text-white flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold shadow-[0_4px_12px_rgba(132,78,237,0.2)] transition-all hover:scale-[1.01] active:opacity-90 cursor-pointer"
                       >
                         <Calendar size={14} />
                         <span>Book {msg.bookingSuggestedSlot.day}, {msg.bookingSuggestedSlot.timeSlot}</span>
