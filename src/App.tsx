@@ -109,7 +109,7 @@ export default function App() {
               <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 bg-[#FAF9FF] border border-brand-purple/10 rounded-full shadow-2xs hover:border-brand-purple/20 transition-all">
                 <span className="w-1.5 h-1.5 bg-brand-purple rounded-full animate-pulse"></span>
                 <span className="text-xs font-semibold text-brand-purple tracking-wide font-sans">
-                  Trained on 1.5m Dental X-Rays
+                  Trained on 1.5M+ Dental Scans
                 </span>
                 <ChevronRight size={12} className="text-brand-purple/60" />
               </div>

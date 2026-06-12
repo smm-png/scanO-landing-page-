@@ -16,12 +16,19 @@ import {
 import { motion, AnimatePresence } from "motion/react";
 import { Message } from "../types";
 
+// Custom generated high-fidelity clinical scan snapshots
+const frontalScanImg = "/src/assets/images/frontal_teeth_scan_1781249848595.jpg";
+const lowerArchScanImg = "/src/assets/images/lower_arch_scan_1781249870838.jpg";
+const upperArchScanImg = "/src/assets/images/upper_arch_scan_1781249889086.jpg";
+
 export default function InteractiveChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [activeScanIndex, setActiveScanIndex] = useState<number | null>(null);
   const [scanStatus, setScanStatus] = useState<"idle" | "uploading" | "analyzing" | "completed">("idle");
+  const [activeScanTab, setActiveScanTab] = useState(0);
+  const [hoveredFinding, setHoveredFinding] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<number[]>([]);
@@ -31,27 +38,29 @@ export default function InteractiveChat() {
     timeoutsRef.current = [];
   };
 
-  // Hardcoded default conversation replay sequence
+  // Hardcoded default conversation replay sequence with deep vision scanning
   const startDefaultSequence = () => {
     clearAllMyTimeouts();
     setMessages([]);
     setIsTyping(false);
-    setScanStatus("completed");
+    setScanStatus("idle");
+    setActiveScanTab(0);
+    setHoveredFinding(null);
     
-    // Step 1: Initial welcome
+    // Step 1: User indicates chipped molar
     const t1 = window.setTimeout(() => {
       setMessages([
         {
-          id: "1",
-          sender: "copilot",
-          text: "Hello! I am scanO Copilot. Please upload or drag structured X-rays or dental snapshots here for a preliminary scan, or ask me any questions about treatments, scheduling or fees.",
+          id: "user-1",
+          sender: "user",
+          text: "I chipped a molar last night",
           time: "1:04 PM"
         }
       ]);
     }, 500);
     timeoutsRef.current.push(t1);
 
-    // Step 2: Show scan finding cards
+    // Step 2: Copilot replies asking for photo uploads
     const t2 = window.setTimeout(() => {
       setIsTyping(true);
     }, 1800);
@@ -60,50 +69,21 @@ export default function InteractiveChat() {
     const t3 = window.setTimeout(() => {
       setIsTyping(false);
       setMessages(prev => {
-        // Prevent duplicate keys
-        if (prev.some(m => m.id === "2")) return prev;
+        if (prev.some(m => m.id === "copilot-1")) return prev;
         return [
           ...prev,
           {
-            id: "2",
+            id: "copilot-1",
             sender: "copilot",
-            text: "I finished running the Deep Vision analysis on your uploaded dental photos. Here are the clinical findings:",
-            time: "1:05 PM",
-            scanResult: {
-              images: [
-                {
-                  type: "cavity",
-                  score: 94,
-                  status: "Cavity Detected",
-                  borderColor: "border-red-500",
-                  badgeBg: "bg-red-50 text-red-600 border-red-200",
-                  label: "94% Cavity"
-                },
-                {
-                  type: "calculus",
-                  score: 87,
-                  status: "Moderate Calculus",
-                  borderColor: "border-yellow-500",
-                  badgeBg: "bg-yellow-50 text-yellow-600 border-yellow-200",
-                  label: "87% Calculus"
-                },
-                {
-                  type: "healthy",
-                  score: 98,
-                  status: "Healthy Molar",
-                  borderColor: "border-green-500",
-                  badgeBg: "bg-green-50 text-green-600 border-green-200",
-                  label: "Healthy"
-                }
-              ]
-            }
+            text: "Oh no! Chipping a molar cusp can be highly uncomfortable since it often strips away the protective enamel shield and exposes the sensitive dentin layer. This can lead to neural sensitivity or progressive fissure decay if not reinforced.\n\nTo help me evaluate the structural integrity of the tooth, could you snap a clear picture of the area on your mobile and upload it right here?",
+            time: "1:04 PM"
           }
         ];
       });
     }, 3200);
     timeoutsRef.current.push(t3);
 
-    // Step 3: Copilot schedules and recommends next action
+    // Step 3: User uploads the three pictures requested
     const t4 = window.setTimeout(() => {
       setIsTyping(true);
     }, 4500);
@@ -112,15 +92,101 @@ export default function InteractiveChat() {
     const t5 = window.setTimeout(() => {
       setIsTyping(false);
       setMessages(prev => {
-        // Prevent duplicate keys
-        if (prev.some(m => m.id === "3")) return prev;
+        if (prev.some(m => m.id === "user-2")) return prev;
         return [
           ...prev,
           {
-            id: "3",
+            id: "user-2",
+            sender: "user",
+            text: "Yes, I just captured and uploaded close-ups of my lower arch, upper arch, and front teeth. Let me know what you see.",
+            time: "1:05 PM"
+          }
+        ];
+      });
+    }, 5600);
+    timeoutsRef.current.push(t5);
+
+    // Step 4: Simulate uploading and advanced vision analysis
+    const t6 = window.setTimeout(() => {
+      setScanStatus("uploading");
+    }, 5800);
+    timeoutsRef.current.push(t6);
+
+    const t7 = window.setTimeout(() => {
+      setScanStatus("analyzing");
+    }, 7200);
+    timeoutsRef.current.push(t7);
+
+    const t8 = window.setTimeout(() => {
+      setScanStatus("completed");
+      setIsTyping(true);
+    }, 8900);
+    timeoutsRef.current.push(t8);
+
+    // Step 5: Copilot delivers the diagnostic report matching the pictures
+    const t9 = window.setTimeout(() => {
+      setIsTyping(false);
+      setMessages(prev => {
+        if (prev.some(m => m.id === "copilot-2")) return prev;
+        return [
+          ...prev,
+          {
+            id: "copilot-2",
             sender: "copilot",
-            text: "Good news — that's early decay, not a fracture. A filling now avoids a crown later. Dr. Mehta has Thursday 3:00 PM open.",
+            text: "I have successfully processed your high-resolution snaps. Our Computer Vision engine has color-annotated several areas of clinical concern across your lower, upper, and anterior arches.\n\nExplore your interactive Diagnostic Scan Report below to evaluate each snap's bounding boxes:",
             time: "1:05 PM",
+            scanResult: {
+              mode: "custom_chipped_molar",
+              images: [
+                {
+                  type: "malaligned",
+                  score: 84,
+                  status: "Anterior Malalignment",
+                  borderColor: "border-amber-500",
+                  badgeBg: "bg-amber-50 text-amber-600 border-amber-200",
+                  label: "Frontal View"
+                },
+                {
+                  type: "cavity",
+                  score: 96,
+                  status: "Cusp Fracture & Caries",
+                  borderColor: "border-red-500",
+                  badgeBg: "bg-red-50 text-red-600 border-red-200",
+                  label: "Lower Arch"
+                },
+                {
+                  type: "smokers_palate",
+                  score: 92,
+                  status: "Nicotinic Stomatitis",
+                  borderColor: "border-purple-500",
+                  badgeBg: "bg-purple-50 text-purple-600 border-purple-200",
+                  label: "Upper Arch"
+                }
+              ]
+            }
+          }
+        ];
+      });
+    }, 10500);
+    timeoutsRef.current.push(t9);
+
+    // Step 6: Booking recommended slot prompt
+    const t10 = window.setTimeout(() => {
+      setIsTyping(true);
+    }, 12200);
+    timeoutsRef.current.push(t10);
+
+    const t11 = window.setTimeout(() => {
+      setIsTyping(false);
+      setMessages(prev => {
+        if (prev.some(m => m.id === "copilot-3")) return prev;
+        return [
+          ...prev,
+          {
+            id: "copilot-3",
+            sender: "copilot",
+            text: "To shield that fractured disto-occlusal molar tooth cusp before deep decay infects your root canals, we should seal it promptly. Dr. Mehta has an opening this Thursday at 3:00 PM for a durable, pain-free digital restoration. Shall I lock in this slot for you?",
+            time: "1:06 PM",
             bookingSuggestedSlot: {
               doctor: "Dr. Mehta",
               day: "Thursday",
@@ -130,8 +196,8 @@ export default function InteractiveChat() {
           }
         ];
       });
-    }, 6200);
-    timeoutsRef.current.push(t5);
+    }, 14000);
+    timeoutsRef.current.push(t11);
   };
 
   useEffect(() => {
@@ -321,7 +387,7 @@ export default function InteractiveChat() {
               <Camera size={18} />
             </div>
             <div>
-              <p className="font-semibold text-gray-900 text-sm sm:text-base">Preliminary AI scan captured straight into Engage</p>
+              <p className="font-semibold text-gray-900 text-sm sm:text-base">Preliminary AI scan captured</p>
               <p className="text-xs sm:text-sm text-gray-500 mt-0.5">Allows patient to snap a photo on phone camera or drag a panoramic picture.</p>
             </div>
           </div>
@@ -401,49 +467,300 @@ export default function InteractiveChat() {
 
                 {/* Optional Interactive X-Ray Scanning Finding Cards */}
                 {msg.scanResult && (
-                  <div className="w-full mt-3">
-                    <div className="bg-white border border-purple-100 rounded-2xl p-3 shadow-xs space-y-2.5">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold font-mono tracking-wider text-purple-700 uppercase">AI SCAN • 3 FINDINGS</span>
-                        <span className="text-[9px] text-gray-400 font-mono">100% HIPAA protected</span>
-                      </div>
+                  msg.scanResult.mode === "custom_chipped_molar" ? (
+                    <div className="w-full mt-3">
+                      <div className="bg-slate-950 text-white border border-slate-800 rounded-2xl p-3 shadow-md space-y-3">
+                        {/* Header metadata */}
+                        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                          <span className="text-[10px] font-extrabold font-mono tracking-wider text-purple-400 flex items-center gap-1 select-none">
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                            DIAGNOSTIC SCAN REPORT
+                          </span>
+                          <span className="text-[9px] text-slate-400 font-mono">HIPAA ENCRYPTED • scanO AI v2.4</span>
+                        </div>
 
-                      {/* 3 cards with drag/drop layout matching layout */}
-                      <div className="grid grid-cols-3 gap-2">
-                        {msg.scanResult.images.map((img, idx) => (
-                          <div
-                            key={idx}
-                            onClick={() => triggerMockImageScan(idx)}
-                            className={`relative border-2 border-dashed rounded-xl p-2 cursor-pointer flex flex-col items-center justify-center text-center transition-all duration-200 ${
-                              activeScanIndex === idx 
-                                ? "border-brand-purple bg-purple-50" 
-                                : `${img.borderColor} hover:bg-gray-50 bg-[#FBFBFC]`
-                            }`}
-                          >
-                            {/* Tooth Blueprint Drawing */}
-                            <div className="w-7 h-7 flex items-center justify-center bg-white rounded-md border border-gray-100 mb-1">
-                              {idx === 0 ? (
-                                <span className="text-red-500 font-bold text-xs">🦷</span>
-                              ) : idx === 1 ? (
-                                <span className="text-yellow-600 font-bold text-xs">🦷</span>
-                              ) : (
-                                <span className="text-green-500 font-bold text-xs">🦷</span>
-                              )}
+                        {/* Top Navigation Tabs */}
+                        <div className="flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
+                          {["Frontal Snap", "Lower Arch (Injury)", "Upper Arch"].map((tabLabel, idx) => (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => {
+                                setActiveScanTab(idx);
+                                setHoveredFinding(null);
+                              }}
+                              className={`flex-1 text-center py-1.5 rounded-md text-[10px] font-bold transition-all ${
+                                activeScanTab === idx
+                                  ? "bg-brand-purple text-white shadow-xs"
+                                  : "text-slate-400 hover:text-slate-200"
+                              }`}
+                            >
+                              {tabLabel}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Visual Scanning Canvas showing tooth structures */}
+                        <div className="relative h-44 bg-slate-900 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center">
+                          {/* Inner Scan Grid lines */}
+                          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:12px_12px] opacity-60"></div>
+
+                          {/* Render dental views */}
+                          {activeScanTab === 0 && (
+                            /* Frontal View */
+                            <div className="relative w-full h-full flex flex-col justify-center items-center">
+                              {/* Clinical photograph background */}
+                              <img 
+                                src={frontalScanImg} 
+                                alt="Frontal Dental scan" 
+                                className="absolute inset-0 w-full h-full object-cover opacity-75"
+                                referrerPolicy="no-referrer"
+                              />
+                              
+                              {/* Subtle scan target lines overlay */}
+                              <div className="absolute inset-0 pointer-events-none border border-brand-purple/20 rounded-xl m-1"></div>
+
+                              {/* Bounding box 1: Stains */}
+                              <div 
+                                onMouseEnter={() => setHoveredFinding("stains")}
+                                onClick={() => setHoveredFinding("stains")}
+                                className={`absolute top-[28%] left-[38%] w-[14%] h-[14%] border border-red-500 rounded-sm cursor-pointer transition-all duration-200 ${
+                                  hoveredFinding === "stains" ? "bg-red-500/20 shadow-[0_0_12px_rgba(239,68,68,0.5)] scale-105" : "bg-red-500/5"
+                                }`}
+                              >
+                                <span className="absolute -top-3.5 left-0 bg-red-500 text-white text-[7px] font-extrabold px-1 py-0.5 rounded-xs leading-none">stains</span>
+                              </div>
+
+                              {/* Bounding box 2: Malaligned bottom */}
+                              <div 
+                                onMouseEnter={() => setHoveredFinding("frontal_malaligned")}
+                                onClick={() => setHoveredFinding("frontal_malaligned")}
+                                className={`absolute bottom-[16%] left-[35%] w-[32%] h-[20%] border border-amber-500 rounded-sm cursor-pointer transition-all duration-200 ${
+                                  hoveredFinding === "frontal_malaligned" ? "bg-amber-500/20 shadow-[0_0_12px_rgba(245,158,11,0.5)] scale-105" : "bg-amber-500/5"
+                                }`}
+                              >
+                                <span className="absolute -bottom-3.5 left-1/2 -translate-x-1/2 bg-amber-500 text-white text-[7px] font-extrabold px-1 py-0.5 rounded-xs leading-none whitespace-nowrap">malaligned</span>
+                              </div>
+
+                              {/* Bounding box 3: Calculus */}
+                              <div 
+                                onMouseEnter={() => setHoveredFinding("frontal_calculus")}
+                                onClick={() => setHoveredFinding("frontal_calculus")}
+                                className={`absolute top-[26%] right-[32%] w-[12%] h-[12%] border border-emerald-500 rounded-sm cursor-pointer transition-all duration-200 ${
+                                  hoveredFinding === "frontal_calculus" ? "bg-emerald-500/20 shadow-[0_0_12px_rgba(16,185,129,0.5)] scale-105" : "bg-emerald-500/5"
+                                }`}
+                              >
+                                <span className="absolute -top-3.5 right-0 bg-emerald-500 text-white text-[7px] font-extrabold px-1 py-0.5 rounded-xs leading-none">calculus</span>
+                              </div>
                             </div>
-                            
-                            <span className="text-[9px] font-extrabold text-gray-900 block truncate w-full">{img.label}</span>
-                            <span className="text-[8px] font-sans text-gray-500 block truncate">Tap Scan</span>
-                          </div>
-                        ))}
-                      </div>
+                          )}
 
-                      {/* Dotted Caption footer */}
-                      <div className="border-t border-dashed border-gray-100 pt-1.5 flex items-center justify-between text-[8px] sm:text-[9px] text-gray-400 font-mono">
-                        <span>captured → Engage</span>
-                        <span>preliminary, not a diagnosis</span>
+                          {activeScanTab === 1 && (
+                            /* Lower Arch view */
+                            <div className="relative w-full h-full flex justify-center items-center">
+                              {/* Clinical photograph background */}
+                              <img 
+                                src={lowerArchScanImg} 
+                                alt="Lower Arch Dental Scan" 
+                                className="absolute inset-0 w-full h-full object-cover opacity-75"
+                                referrerPolicy="no-referrer"
+                              />
+
+                              {/* Bounding box 1: Fissure caries + chipped molar */}
+                              <div 
+                                onMouseEnter={() => setHoveredFinding("chipped_molar")}
+                                onClick={() => setHoveredFinding("chipped_molar")}
+                                className={`absolute top-[22%] right-[22%] w-[18%] h-[18%] border-2 border-red-500 rounded-lg cursor-pointer transition-all duration-200 ${
+                                  hoveredFinding === "chipped_molar" ? "bg-red-500/25 shadow-[0_0_15px_rgba(239,68,68,0.6)] scale-105" : "bg-red-500/5 animate-pulse"
+                                }`}
+                              >
+                                <span className="absolute -top-3.5 right-0 bg-red-600 text-white text-[7px] font-black px-1.5 py-0.5 rounded-xs leading-none whitespace-nowrap">pit & fissure caries</span>
+                              </div>
+
+                              {/* Bounding box 2: Rotational crowding */}
+                              <div 
+                                onMouseEnter={() => setHoveredFinding("lower_malaligned")}
+                                onClick={() => setHoveredFinding("lower_malaligned")}
+                                className={`absolute bottom-[18%] left-[32%] w-[16%] h-[16%] border border-amber-500 rounded-sm cursor-pointer transition-all duration-200 ${
+                                  hoveredFinding === "lower_malaligned" ? "bg-amber-500/20 shadow-[0_0_12px_rgba(245,158,11,0.5)] scale-105" : "bg-amber-500/5"
+                                }`}
+                              >
+                                <span className="absolute -bottom-3.5 left-1/2 -translate-x-1/2 bg-amber-500 text-white text-[7px] font-extrabold px-1 py-0.5 rounded-xs leading-none">malaligned</span>
+                              </div>
+                            </div>
+                          )}
+
+                          {activeScanTab === 2 && (
+                            /* Upper Arch view */
+                            <div className="relative w-full h-full flex justify-center items-center">
+                              {/* Clinical photograph background */}
+                              <img 
+                                src={upperArchScanImg} 
+                                alt="Upper Arch Dental Scan" 
+                                className="absolute inset-0 w-full h-full object-cover opacity-75"
+                                referrerPolicy="no-referrer"
+                              />
+
+                              {/* Bounding box 1: Smoker's Palate */}
+                              <div 
+                                onMouseEnter={() => setHoveredFinding("smokers_palate")}
+                                onClick={() => setHoveredFinding("smokers_palate")}
+                                className={`absolute top-[38%] left-[40%] w-[18%] h-[18%] border border-purple-500 rounded-sm cursor-pointer transition-all duration-200 ${
+                                  hoveredFinding === "smokers_palate" ? "bg-purple-500/20 shadow-[0_0_12px_rgba(168,85,247,0.5)] scale-105" : "bg-purple-500/5"
+                                }`}
+                              >
+                                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-purple-600 text-white text-[7px] font-black px-1 py-0.5 rounded-xs leading-none whitespace-nowrap">smokers palate</span>
+                              </div>
+
+                              {/* Bounding box 2: Upper incisor crowding */}
+                              <div 
+                                onMouseEnter={() => setHoveredFinding("upper_malaligned")}
+                                onClick={() => setHoveredFinding("upper_malaligned")}
+                                className={`absolute top-[18%] left-[38%] w-[14%] h-[14%] border border-amber-500 rounded-sm cursor-pointer transition-all duration-200 ${
+                                  hoveredFinding === "upper_malaligned" ? "bg-amber-500/20 shadow-[0_0_12px_rgba(245,158,11,0.5)] scale-105" : "bg-amber-500/5"
+                                }`}
+                              >
+                                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-amber-500 text-white text-[7px] font-extrabold px-1 py-0.5 rounded-xs leading-none">malaligned</span>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Hover Overlay Prompter */}
+                          {!hoveredFinding && (
+                            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-[9px] text-slate-400 font-bold bg-slate-950/80 px-2 py-1 rounded-md border border-slate-800 pointer-events-none tracking-wide animate-pulse">
+                              HOVER OR TAP TARGETS TO INSPECT
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Diagnostic detail readout card */}
+                        <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 min-h-[88px] flex flex-col justify-center">
+                          {hoveredFinding ? (
+                            (() => {
+                              const detailMap: Record<string, { title: string; conf: string; badge: string; text: string }> = {
+                                stains: {
+                                  title: "Extrinsic Chromatic Discoloration",
+                                  conf: "91% Confidence Profile",
+                                  badge: "bg-red-500/10 text-red-400 border border-red-500/20",
+                                  text: "Surface pigment deposits detected near the cervical margin of the upper right canine. Professional dental scaling and custom prophylaxis will easily polish this away."
+                                },
+                                frontal_malaligned: {
+                                  title: "Anterior Dental Malocclusion (Crowding)",
+                                  conf: "84% Confidence Profile",
+                                  badge: "bg-amber-500/10 text-amber-400 border border-amber-500/20",
+                                  text: "Moderate rotational crowding found on lower primary incisors. Restricts standard floss access path, which can aggravate interproximal calculus build-up."
+                                },
+                                frontal_calculus: {
+                                  title: "Calcified Supra-gingival Calculus Deposits",
+                                  conf: "87% Confidence Profile",
+                                  badge: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
+                                  text: "Highly mineralized tartar deposits on the outer upper left molars. Ultrasonic scaling and deep root debridement are indicated to maintain index score health."
+                                },
+                                chipped_molar: {
+                                  title: "Mechanical Coronal Fracture & Occlusal Caries",
+                                  conf: "98% Confidence Profile",
+                                  badge: "bg-red-500/15 text-red-500 border border-red-500/30 animate-pulse font-black",
+                                  text: "A clear mechanical crown crack and cusp structure compromise on the lower right molar disto-occlusal plane, accompanied by active deep-fissure caries. Restoring immediately with a resin composite build-up or inlay will insulate the dental chamber and block root decay."
+                                },
+                                lower_malaligned: {
+                                  title: "Lower Mandibular Overlap (Class I)",
+                                  conf: "89% Confidence Profile",
+                                  badge: "bg-amber-500/10 text-amber-400 border border-amber-500/20",
+                                  text: "Slight overlap on the lower anterior group. Advised to receive dental cleanings biannually to avoid local calculus plaque accretion."
+                                },
+                                smokers_palate: {
+                                  title: "Nicotinic Stomatitis (Keratotic Soft Tissue)",
+                                  conf: "92% Confidence Profile",
+                                  badge: "bg-purple-500/10 text-purple-400 border border-purple-500/20",
+                                  text: "Keratotic mucosal changes and minor papular inflammation on the hard palate from thermal or smoke exposure. Advised to monitor and provide lifestyle checks."
+                                },
+                                upper_malaligned: {
+                                  title: "Upper Maxillary Lateral Incisor Rotation",
+                                  conf: "85% Confidence Profile",
+                                  badge: "bg-amber-500/10 text-amber-400 border border-amber-500/20",
+                                  text: "Lateral incisors show slight rotation pointing palatomesially. Occlusion is functionally balanced, requiring simple periodic observation."
+                                }
+                              };
+                              const item = detailMap[hoveredFinding] || { title: "Clinical Detail", conf: "", badge: "", text: "" };
+                              return (
+                                <div className="space-y-1 text-left">
+                                  <div className="flex items-center gap-2">
+                                    <h5 className="text-xs font-bold text-white tracking-tight">{item.title}</h5>
+                                    <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded-sm shrink-0 ${item.badge}`}>{item.conf}</span>
+                                  </div>
+                                  <p className="text-[10px] text-slate-300 leading-normal">{item.text}</p>
+                                </div>
+                              );
+                            })()
+                          ) : (
+                            <div className="text-left text-slate-400 space-y-1">
+                              <h5 className="text-xs font-bold text-white flex items-center gap-1 select-none">
+                                <Sparkles size={11} className="text-brand-purple" />
+                                {activeScanTab === 0 && "Frontal Diagnostics Summary"}
+                                {activeScanTab === 1 && "Lower Arch Diagnostics Summary (Critical!)"}
+                                {activeScanTab === 2 && "Upper Arch Diagnostics Summary"}
+                              </h5>
+                              <p className="text-[10px] leading-relaxed">
+                                {activeScanTab === 0 && "Click or hover targets representing stains, crowded incisors, and localized calculus to review instant clinical details."}
+                                {activeScanTab === 1 && "Critical focus: Hover/tap the red target over the back molar to inspect the disto-occlusal structural fracture and caries details."}
+                                {activeScanTab === 2 && "Click or hover targets over the palate representing smoker's stomatitis and upper crowding to inspect soft-tissue health."}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Footer info text */}
+                        <div className="text-center text-[8px] text-slate-500 font-mono border-t border-slate-900 pt-2 flex justify-between select-none">
+                          <span>scanO Deep Diagnostic Engine</span>
+                          <span>AI results are indicators only</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="w-full mt-3">
+                      <div className="bg-white border border-purple-100 rounded-2xl p-3 shadow-xs space-y-2.5">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-bold font-mono tracking-wider text-purple-700 uppercase">AI SCAN • 3 FINDINGS</span>
+                          <span className="text-[9px] text-gray-400 font-mono">100% HIPAA protected</span>
+                        </div>
+
+                        {/* 3 cards with drag/drop layout matching layout */}
+                        <div className="grid grid-cols-3 gap-2">
+                          {msg.scanResult.images.map((img, idx) => (
+                            <div
+                              key={idx}
+                              onClick={() => triggerMockImageScan(idx)}
+                              className={`relative border-2 border-dashed rounded-xl p-2 cursor-pointer flex flex-col items-center justify-center text-center transition-all duration-200 ${
+                                activeScanIndex === idx 
+                                  ? "border-brand-purple bg-purple-50" 
+                                  : `${img.borderColor} hover:bg-gray-50 bg-[#FBFBFC]`
+                              }`}
+                            >
+                              {/* Tooth Blueprint Drawing */}
+                              <div className="w-7 h-7 flex items-center justify-center bg-white rounded-md border border-gray-100 mb-1">
+                                {idx === 0 ? (
+                                  <span className="text-red-500 font-bold text-xs">🦷</span>
+                                ) : idx === 1 ? (
+                                  <span className="text-yellow-600 font-bold text-xs">🦷</span>
+                                ) : (
+                                  <span className="text-green-500 font-bold text-xs">🦷</span>
+                                )}
+                              </div>
+                              
+                              <span className="text-[9px] font-extrabold text-gray-900 block truncate w-full">{img.label}</span>
+                              <span className="text-[8px] font-sans text-gray-500 block truncate">Tap Scan</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Dotted Caption footer */}
+                        <div className="border-t border-dashed border-gray-100 pt-1.5 flex items-center justify-between text-[8px] sm:text-[9px] text-gray-400 font-mono">
+                          <span>captured → Engage</span>
+                          <span>preliminary, not a diagnosis</span>
+                        </div>
+                      </div>
+                    </div>
+                  )
                 )}
 
                 {/* Optional Dynamic Schedule / Appointment Booking Action Card */}

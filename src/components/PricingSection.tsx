@@ -52,7 +52,7 @@ export default function PricingSection({ onOpenTrialpane }: PricingSectionProps)
         </h2>
         
         <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
-          14-day free trial, no credit card. Conversations are never capped on any plan — you only upgrade when you want the bot fully white-labelled.
+          14-day free trial, no credit card. Conversations are never capped on any plan — you only upgrade when you want the fully white-labelled.
         </p>
 
         {/* Pricing Comparison Anchor Info Tag */}

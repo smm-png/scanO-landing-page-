@@ -124,7 +124,7 @@ export default function FeaturesGrid() {
             One widget. The whole <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-purple-600">front desk.</span>
           </h2>
           <p className="text-gray-600 text-base sm:text-lg max-w-2xl">
-            From the first hello to a confirmed clinical chair appointment — and the dental emergencies in between — Copilot handles the communication end to end.
+            From answering simple dental questions to booking appointments and handling unexpected emergencies, Copilot takes care of all patient conversations from start to finish.
           </p>
         </div>
 

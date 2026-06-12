@@ -16,12 +16,6 @@ export default function TimelineSection() {
       icon: <BookOpen size={14} className="text-white" />,
       title: "Review your auto-built knowledge base",
       desc: "Our model crawls your dental services, fees, and location info automatically."
-    },
-    {
-      num: 3,
-      icon: <Sparkles size={14} className="text-white" />,
-      title: "Go live — on your site, IG, WhatsApp & GBP",
-      desc: "Converse with and book incoming web leads everywhere, 24/7."
     }
   ];
 
@@ -52,7 +46,7 @@ export default function TimelineSection() {
             From paste to patients <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-indigo-600">in 10 Mins.</span>
           </h2>
           <p className="text-gray-600 text-base sm:text-lg">
-            Drop one snippet on your site — no developer required. Copilot scrapes your pages to build its knowledge base; you review the pricing and FAQs, then go live.
+            Just paste a single code snippet onto your website. No helper developer is required. Copilot automatically reads your current website pages to learn about your practice, so you can review the settings and go live in minutes.
           </p>
         </div>
 
@@ -65,7 +59,7 @@ export default function TimelineSection() {
                 <div className="w-7 h-7 rounded-full bg-brand-purple flex items-center justify-center text-xs font-extrabold shadow-sm group-hover:scale-105 transition-transform">
                   {step.icon}
                 </div>
-                {step.num < 3 && (
+                {step.num < 2 && (
                   <div className="w-[1.5px] h-12 bg-gray-100 mt-2"></div>
                 )}
               </div>

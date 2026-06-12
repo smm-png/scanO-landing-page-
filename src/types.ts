@@ -6,13 +6,15 @@ export interface Message {
   isCustomResponse?: boolean;
   scanResult?: {
     images: {
-      type: "cavity" | "calculus" | "healthy";
+      type: "cavity" | "calculus" | "healthy" | "malaligned" | "stains" | "smokers_palate";
       score: number;
       status: string;
       borderColor: string;
       badgeBg: string;
       label: string;
+      description?: string;
     }[];
+    mode?: "custom_chipped_molar";
   };
   bookingSuggestedSlot?: {
     doctor: string;
