@@ -15,4 +15,11 @@
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://copilot.scanoai.com/blog/5-signs-your-dental-front-desk-needs-ai</loc>
+    <lastmod>2026-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
 </urlset>
